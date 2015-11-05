@@ -1,0 +1,17 @@
+--- a/scripts/casper-bottom/15autologin
++++ b/scripts/casper-bottom/15autologin
+@@ -49,6 +49,14 @@
+         /root/etc/lxdm/lxdm.conf
+ fi
+ 
++if [ -f /root/etc/slim.conf ]; then
++    # Configure SLiM autologin
++   sed -i -r \
++        -e "s/^#auto_login          no/auto_login          yes/" \
++        -e "s/^#default_user        simone/default_user        $USERNAME/" \
++        /root/etc/slim.conf
++fi
++
+ if [ -f /root/etc/xdg/lubuntu/lxdm/lxdm.conf ]; then
+     # Configure LXDM autologin with Lubuntu session
+    sed -i -r \
