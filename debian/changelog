@@ -1,3 +1,9 @@
+casper (1.360-2) vivid; urgency=medium
+
+  * Redirected ln output to /dev/null in 31disable_update_notifier
+
+ -- Hugh Greenberg <hugh@galliumos.org>  Wed, 22 Sep 2015 15:48:53 +0100
+
 casper (1.360-1) vivid; urgency=medium
 
   * Added support for slim locker in 15autologin script
