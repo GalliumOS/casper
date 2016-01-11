@@ -1,3 +1,9 @@
+casper (1.360-0galliumos1) vivid; urgency=medium
+
+  * Set package version to match provenance
+
+ -- reynhout <reynhout@galliumos.org>  Sun, 10 Jan 2016 21:05:33 +0000
+
 casper (1.360-2) vivid; urgency=medium
 
   * Redirected ln output to /dev/null in 31disable_update_notifier
