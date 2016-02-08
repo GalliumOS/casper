@@ -1,0 +1,11 @@
+--- casper-pre/bin/casper-stop	2016-02-08 22:31:05.254806738 +0000
++++ casper/bin/casper-stop	2016-02-08 22:32:56.483797620 +0000
+@@ -100,7 +100,7 @@
+     fi
+ 
+     # XXX - i18n
+-    MSG="Please remove installation media and close the tray (if any) then press ENTER: "
++    MSG="Please remove installation media, then press ENTER"
+ 
+     if [ "$prompt" ]; then
+         if [ -x /bin/plymouth ] && plymouth --ping; then
