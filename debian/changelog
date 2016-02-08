@@ -1,3 +1,9 @@
+casper (1.360-0galliumos2) vivid; urgency=medium
+
+  *  Modify postinstall message. No media trays on chromeOS devices! 
+
+ -- reynhout <reynhout@galliumos.org>  Mon, 08 Feb 2016 22:38:08 +0000
+
 casper (1.360-0galliumos1) vivid; urgency=medium
 
   * Set package version to match provenance
