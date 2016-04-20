@@ -1,3 +1,10 @@
+casper (1.375-galliumos1) xenon; urgency=medium
+
+  * Re-apply GalliumOS patches
+    - Suppress error output from 'ln' in 31disable_update_notifier
+
+ -- reynhout <reynhout@galliumos.org>  Wed, 20 Apr 2016 22:11:05 +0000
+
 casper (1.375) xenial; urgency=medium
 
   * scripts/casper-bottom/16disable_gpt_auto_mount: Disable systemd's GPT auto
