@@ -111,12 +111,6 @@ if [ -n "${NETBOOT}" ]; then
 	exit 0;
 fi
 
-#if chroot /root [ -f /etc/gdm/gdm-cdd.conf ]; then
-#    GDMCONF=/etc/gdm/gdm-cdd.conf
-#else
-#    GDMCONF=/etc/gdm/gdm.conf
-#fi
-
 eject
 log_wait_msg "Insert a driver CD and press ENTER ($DPKG_ARCH)"
 

@@ -20,7 +20,7 @@ esac
 
 log_begin_msg "$DESCRIPTION"
 
-GDMCustomFile=/root/etc/gdm/custom.conf
+GDMCustomFile=/root/etc/gdm3/custom.conf
 
 if [ -f $GDMCustomFile ]; then
     # Configure GDM autologin
@@ -64,8 +64,7 @@ if [ -d /root/etc/lightdm ]; then
     AutologinParameters="allow-guest=false\n\
 autologin-guest=false\n\
 autologin-user=$USERNAME\n\
-autologin-user-timeout=0\n\
-autologin-session=lightdm-autologin"
+autologin-user-timeout=0"
 
     # Prevent from updating if parameters already present (persistent usb key)
     if ! `grep -qs '^autologin-user' $LightDMCustomFile` ; then

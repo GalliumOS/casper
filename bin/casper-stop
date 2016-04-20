@@ -100,7 +100,7 @@ do_stop ()
     fi
 
     # XXX - i18n
-    MSG="Please remove installation media and close the tray (if any) then press ENTER: "
+    MSG="Please remove the installation medium, then press ENTER: "
 
     if [ "$prompt" ]; then
         if [ -x /bin/plymouth ] && plymouth --ping; then

@@ -1,26 +1,150 @@
-casper (1.360-0galliumos2) vivid; urgency=medium
+casper (1.375) xenial; urgency=medium
 
-  *  Modify postinstall message. No media trays on chromeOS devices! 
+  * scripts/casper-bottom/16disable_gpt_auto_mount: Disable systemd's GPT auto
+    generator. We don't want this on a live system that is supposed to not
+    touch your hard disk by default, and particularly we don't want to
+    automatically enable discovered swap partitions. (LP: #1552539)
+  * debian/control: Drop Vcs-Bzr:, which does not exist any more.
 
- -- reynhout <reynhout@galliumos.org>  Mon, 08 Feb 2016 22:38:08 +0000
+ -- Martin Pitt <martin.pitt@ubuntu.com>  Tue, 19 Apr 2016 15:53:13 +0200
 
-casper (1.360-0galliumos1) vivid; urgency=medium
+casper (1.374) xenial; urgency=medium
 
-  * Set package version to match provenance
+  * scripts/casper-bottom/25adduser:
+    - Fix symlink when installing passwd systemd unit
 
- -- reynhout <reynhout@galliumos.org>  Sun, 10 Jan 2016 21:05:33 +0000
+ -- Tim Lunn <tim@feathertop.org>  Mon, 18 Apr 2016 22:53:17 -0400
 
-casper (1.360-2) vivid; urgency=medium
+casper (1.373) xenial; urgency=medium
 
-  * Redirected ln output to /dev/null in 31disable_update_notifier
+  * scripts/casper-bottom/25adduser:
+    - Inject a systemd unit that will call passwd -d to ensure that the
+      AccountsService properties (particulary PasswordMode) are correctly
+      set for the live session user. This will be ignored on persistent 
+      USB's (LP: #1561302)
 
- -- Hugh Greenberg <hugh@galliumos.org>  Wed, 22 Sep 2015 15:48:53 +0100
+ -- Tim Lunn <tim@feathertop.org>  Wed, 13 Apr 2016 14:02:44 +1000
 
-casper (1.360-1) vivid; urgency=medium
+casper (1.372) xenial; urgency=medium
 
-  * Added support for slim locker in 15autologin script
+  * ubiquity-hooks/30accessibility:
+    - Extend profile code to support profiles for Mate and GNOME flavours
+      (LP: #1546317)
+    - Add code to support lightdm-gtk-greeter used by Ubuntu Mate
+  * scripts/casper-bottom/30accessibility:
+    - Allow the screen reader shortcut to load the blindness profile in
+      Mate/GNOME as well
 
- -- Hugh Greenberg <hugh@galliumos.org>  Wed, 22 Sep 2015 15:48:53 +0100
+ -- Luke Yelavich <themuso@ubuntu.com>  Fri, 08 Apr 2016 12:25:00 +1000
+
+casper (1.371) xenial; urgency=medium
+
+  * Don't let gnome-software's service run in a live env. (LP: #1565865)
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Thu, 07 Apr 2016 12:27:16 -0500
+
+casper (1.370) xenial; urgency=medium
+
+  * Correct syntax error in systemd script.
+    s,force-tty,tty-force,
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Tue, 29 Mar 2016 13:23:23 -0500
+
+casper (1.369) xenial; urgency=medium
+
+  * ubiquity-hooks/30accessibility:
+    - Re-add accidentally dropped functionality to set up the greeter with
+      settings relevant to the selected accessibility profile
+    - Use su instead of sudo so that gsettings works properly
+    - Properly clean up after settings are applied
+    - Remove references to the magnifier profile, we do not have a magnifier
+      on the Ubuntu desktop
+    - Use correct profile names
+    - Deal with quotes from gsettings output
+
+ -- Luke Yelavich <themuso@ubuntu.com>  Thu, 24 Mar 2016 12:27:23 +1100
+
+casper (1.368) xenial; urgency=medium
+
+  * scripts/casper-bottom/14locales: Call "locale-gen --keep-existing",
+    without passing the language. As of glibc 2.23, locale-gen will remove all
+    locales (apart from the passed argument, if it exists in
+    /var/lib/locales/supported.d) from the system if you pass an argument at
+    the end of locale-gen without "--keep-existing". If called as "locale-gen
+    --keep-existing" with no arguments, then all locales in
+    /var/lib/locale/supported.d/ and /etc/locale.gen are generated if they
+    weren't already generated. This is what we want.
+
+ -- Iain Lane <iain@orangesquash.org.uk>  Tue, 22 Mar 2016 17:03:40 +0000
+
+casper (1.367) xenial; urgency=medium
+
+  Replacement of a11y profile handling code with liba11y-profile-manager:
+  * bin/casper-a11y-enable: Removed, ported profile code to the new a11y
+    profile management library
+  * scripts/casper-bottom/30accessibility, ubiquity-hooks/30accessibility:
+    - Adjust to use a11y-profile-manager, using dconf compile to update
+      user and login manager dconf/gsettings configuration with profile
+      settings.
+
+ -- Luke Yelavich <themuso@ubuntu.com>  Wed, 17 Feb 2016 18:48:54 +1100
+
+casper (1.366) xenial; urgency=medium
+
+  * scripts/casper-bottom/15autologin, 25adduser: Update paths to gdm3 (LP: #1518478)
+  * scripts/casper-bottom/16gdmnopasswd: Dropped, this does nothing anymore
+    since JS code lives in a gresource these days
+  * scripts/casper-premount/10driver_updates: Drop obsolete gdm snippet
+
+ -- Tim Lunn <tim@feathertop.org>  Sat, 21 Nov 2015 10:01:49 +1100
+
+casper (1.365) wily; urgency=medium
+
+  * Add prereqs handling to several scripts that lacked it (LP: #1495873).
+  * Fix inverted warning message in copy_live_to (LP: #1494123).
+  * Simplify and improve the grammar of the installation medium removal
+    prompt (LP: #1159207).
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Tue, 15 Sep 2015 13:44:27 +0100
+
+casper (1.364) wily; urgency=medium
+
+  * scripts/casper-bottom/15autologin: don't set autologin-session for lightdm,
+    it's not actually existing as a valid session and lightdm properly does
+    autologin in Ubuntu and Xubuntu without it.
+
+ -- Mathieu Trudel-Lapierre <mathieu-tl@ubuntu.com>  Tue, 11 Aug 2015 16:03:37 -0400
+
+casper (1.363) wily; urgency=low
+
+  * scripts/casper: migrate existing persistent disk images to the
+    updated upper/work form.  Record the actual format used and
+    ensure we use the existing format and abort if not possible.
+    (LP: #1481117)
+
+ -- Andy Whitcroft <apw@ubuntu.com>  Mon, 10 Aug 2015 10:52:25 +0100
+
+casper (1.362) wily; urgency=medium
+
+  * bin/casper-a11y-enable:
+    - Remove all references and settings to gconf, nothing a11y that we
+      set uses gconf any more
+    - Change how the gset function is called, as the method name is
+      self-explanetory
+    - Remove the startup script hack, as we now use systemd, and its cleaner
+      to create dconf key files directly, and load into the user's dconf
+      database
+    - Escape quotation marks
+
+ -- Luke Yelavich <themuso@ubuntu.com>  Fri, 17 Jul 2015 10:54:40 +1000
+
+casper (1.361) wily; urgency=medium
+
+  * debian/control: bump localechooser-data Depends to (>= 2.65ubuntu1).
+  * scripts/casper-functions: update to new localechooser-data languagelist
+    format.
+
+ -- Mathieu Trudel-Lapierre <mathieu-tl@ubuntu.com>  Wed, 03 Jun 2015 15:38:24 -0400
 
 casper (1.360) vivid; urgency=medium
 
