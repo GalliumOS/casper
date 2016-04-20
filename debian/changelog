@@ -1,3 +1,11 @@
+casper (1.376-galliumos1) xenon; urgency=medium
+
+  * re-apply GalliumOS patches
+    - suppress error output from 'ln' in 31disable_update_notifier
+    - create (almost) empty conf.d dir to prevent debian Makefile errors
+
+ -- reynhout <reynhout@galliumos.org>  Wed, 20 Apr 2016 23:30:32 +0000
+
 casper (1.376) xenial; urgency=medium
 
   * scripts/casper-bottom/13swap: Don't add detected swap partitions to the
