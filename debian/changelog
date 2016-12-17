@@ -1,3 +1,10 @@
+casper (1.376-galliumos2) xenon; urgency=medium
+
+  * new patch: galliumos-fix_diskinfo_release_tag.diff
+    - handle single-word .disk/info tags properly (strip trailing spaces)
+
+ -- reynhout <reynhout@galliumos.org>  Sat, 17 Dec 2016 02:58:04 +0000
+
 casper (1.376-galliumos1) xenon; urgency=medium
 
   * re-apply GalliumOS patches

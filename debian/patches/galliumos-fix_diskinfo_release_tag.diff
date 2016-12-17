@@ -1,0 +1,13 @@
+diff --git a/scripts/casper-bottom/25adduser b/scripts/casper-bottom/25adduser
+index 67cffef..4e353f1 100755
+--- a/scripts/casper-bottom/25adduser
++++ b/scripts/casper-bottom/25adduser
+@@ -74,7 +74,7 @@ if [ -d /root/etc/sudoers.d/ ]; then
+ fi
+ 
+ LTS="$(cut -d' ' -f3 /root/cdrom/.disk/info 2>/dev/null)" || LTS=
+-RELEASE="$(cut -d' ' -f1-2 /root/cdrom/.disk/info 2>/dev/null | sed 's/-/ /')" || RELEASE=
++RELEASE="$(cut -d' ' -f1-2 /root/cdrom/.disk/info 2>/dev/null | sed 's/-/ /' | sed 's/  ^$//')" || RELEASE=
+ if [ "$LTS" = "LTS" ] && [ -n "$RELEASE" ]; then
+ 	RELEASE="$RELEASE LTS"
+ fi
