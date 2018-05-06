@@ -1,17 +1,171 @@
-casper (1.376-galliumos2) xenon; urgency=medium
+casper (1.394-galliumos0) bismuth; urgency=medium
 
-  * new patch: galliumos-fix_diskinfo_release_tag.diff
-    - handle single-word .disk/info tags properly (strip trailing spaces)
-
- -- reynhout <reynhout@galliumos.org>  Sat, 17 Dec 2016 02:58:04 +0000
-
-casper (1.376-galliumos1) xenon; urgency=medium
-
-  * re-apply GalliumOS patches
+  * Add GalliumOS patches
     - suppress error output from 'ln' in 31disable_update_notifier
     - create (almost) empty conf.d dir to prevent debian Makefile errors
+    - handle single-word .disk/info tags properly (strip trailing spaces)
 
- -- reynhout <reynhout@galliumos.org>  Wed, 20 Apr 2016 23:30:32 +0000
+ -- reynhout <reynhout@galliumos.org>  Sun, 06 May 2018 05:52:04 +0000
+
+casper (1.394) bionic; urgency=medium
+
+  * Echo a fallback message to nudge users to reboot, in the case when
+    they do not see the pretty plymouth cause it 💩 itself.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Wed, 25 Apr 2018 19:04:21 +0100
+
+casper (1.393) bionic; urgency=medium
+
+  * Cache Ubuntu fonts for plymouth on shutdown. LP: #1760598
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Wed, 04 Apr 2018 11:55:32 +0100
+
+casper (1.392) bionic; urgency=medium
+
+  [ Jean-Baptiste Lallement ]
+  * scripts/casper-bottom/31disable_update_notifier:
+    - Do not activate gnome-software session service in the live session by
+      disabling gnome-software shell search provider (LP: #1758920)
+
+  [ Iain Lane ]
+  * scripts/casper-bottom/55disable_snap_refresh: Add RemainAfterExit=yes, so
+    that we only run once.
+  * Move the gnome-software GSettings override to
+    scripts/casper-bottom/22desktop_settings and add it to the pre-existing
+    casper override - we need to call glib-compile-schemas to get it to work
+    and this script already does that.
+  * Check if gnome-software's search provider is there before writing to it,
+    so that we don't do anything if it isn't.
+
+ -- Jean-Baptiste Lallement <jean-baptiste.lallement@ubuntu.com>  Thu, 29 Mar 2018 16:45:29 +0100
+
+casper (1.391) bionic; urgency=medium
+
+  [ Jean-Baptiste Lallement ]
+  * scripts/casper-bottom/55disable_snap_refresh:
+    - Set refresh timer of snapd to 60 days on live session (LP: #1723094)
+
+  [ Iain Lane ]
+  * Modify the script a bit
+    - Install in /run as a transient directory
+    - Be WantedBy snapd.service, instead of Requires snapd.service & WantedBy
+      multi-user.target, and update the symlink to match. It makes sense for
+      us to order ourself to start right after snapd does.
+
+ -- Jean-Baptiste Lallement <jean-baptiste.lallement@canonical.com>  Thu, 22 Mar 2018 09:49:54 +0100
+
+casper (1.390) bionic; urgency=medium
+
+  * scripts/casper-bottom/34disable_kde_services:
+    - stop disabling kwallet in Kubuntu live session by removing it's
+      desktop and service files, and instead write a 'kwalletrc' config
+      file disabling it. Allows plasma-nm to recognise it is disabled,
+      and not try to use it initially. Fixes repeated wi-fi password
+      prompt. (LP: #1572244)
+
+ -- Rik Mills <rikmills@kubuntu.org>  Mon, 12 Mar 2018 11:45:09 +0000
+
+casper (1.389) bionic; urgency=medium
+
+  * scripts/casper-bottom/22desktop_settings:
+    - don't display the Trash icon on the desktop in the live session 
+  * scripts/casper-bottom/25adduser:
+    - remove the "Example" icon from the desktop but keep it in the user
+      directory. It easy enough to find there as well and it gives a
+      cleaner desktop view by default.
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Fri, 02 Mar 2018 13:32:50 +0100
+
+casper (1.388) bionic; urgency=medium
+
+  * bin/casper-stop: do not prompt for removal of installation medium if
+    /run/casper-no-prompt exists. (LP: #1736797)
+
+ -- Michael Hudson-Doyle <michael.hudson@ubuntu.com>  Thu, 07 Dec 2017 09:14:22 +1300
+
+casper (1.387) artful; urgency=medium
+
+  * Prior to version 1.386, we were unconditionally setting the default
+    locale even if the file already existed in the read-only fs.  Restore
+    this behavior, since our livefs may have a stub file.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 16 Oct 2017 23:05:46 -0700
+
+casper (1.386) artful; urgency=medium
+
+  * Fix handling of the default locale case.  LP: #1723404.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 13 Oct 2017 08:01:16 -0400
+
+casper (1.385) artful; urgency=medium
+
+  * scripts/casper-bottom/14locales: default locale should always be
+    C.UTF-8, not en_US.UTF-8.  LP: #1722828.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 11 Oct 2017 13:14:41 -0400
+
+casper (1.384) artful; urgency=medium
+
+  * scripts/casper-bottom/15autologin:
+    force gdm to start on the live a X session as ubiquity is currently
+    crashing with it (LP: #1702904). We also want to ensure we are using
+    X anyway until we are ready to switch to wayland.
+
+ -- Didier Roche <didrocks@ubuntu.com>  Fri, 07 Jul 2017 15:40:40 +0200
+
+casper (1.383) artful; urgency=medium
+
+  * Drop path from one udevadm call to adjust for movement (LP: #1690580)
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Sat, 13 May 2017 18:10:18 -0600
+
+casper (1.382) artful; urgency=medium
+
+  * scripts/casper-bottom/25adduser: Mark the .desktop files as "trusted" by
+    gio, so that nautilus will let us execute them without further
+    confirmation.
+
+ -- Iain Lane <iain@orangesquash.org.uk>  Wed, 10 May 2017 13:40:01 +0100
+
+casper (1.381) artful; urgency=medium
+
+  * scripts/casper: Do overlay stacking properly. (LP: #1561606)
+  * hooks/casper: Switch from overlayfs to overlay, to make sure we properly
+    enable using overlay rather than aufs on images.
+
+ -- Mathieu Trudel-Lapierre <cyphermox@ubuntu.com>  Wed, 26 Apr 2017 15:10:57 -0400
+
+casper (1.380) zesty; urgency=medium
+
+  * scripts/casper-bottom/15autologin: Add support for Lubuntu and
+    QLubuntu in sddm.conf. Based on patch from Julien Lavergne LP:
+    #1582270
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Mon, 19 Dec 2016 13:05:56 +0000
+
+casper (1.379) yakkety; urgency=medium
+
+  * scripts/casper-bottom/53disable_unattended_upgrades:
+    - Disable the security allowed origin as it can fill a live environment.
+      (LP: #1619188)
+
+ -- Brian Murray <brian@ubuntu.com>  Fri, 30 Sep 2016 13:57:37 -0700
+
+casper (1.378) yakkety; urgency=medium
+
+  * scripts/casper-bottom/52gnome_initial_setup:
+    - Disable gnome-initial-setup in Try Ubuntu mode (LP: 1614778)
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Thu, 18 Aug 2016 19:23:20 -0400
+
+casper (1.377) yakkety; urgency=medium
+
+  * ubiquity-hooks/30accessibility && scripts/casper-bottom/30accessibility:
+    - Add the -i command-line flag to a11y-profile-manager to toggle the
+      state of the indicator, now that it is no longer enabled by the
+      profiles themselves.
+
+ -- Luke Yelavich <themuso@ubuntu.com>  Thu, 18 Aug 2016 09:36:37 +1000
 
 casper (1.376) xenial; urgency=medium
 

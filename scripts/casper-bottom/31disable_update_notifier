@@ -43,4 +43,11 @@ ln -sf /bin/true /root/usr/lib/ubuntu-release-upgrader/check-new-release-gtk
 #anything it's plugins support
 rm -f /root/etc/xdg/autostart/gnome-software-service.desktop
 
+GNOME_SOFTWARE_SEARCH_PROVIDER=/root/usr/share/gnome-shell/search-providers/org.gnome.Software-search-provider.ini 
+
+if [ -e "${GNOME_SOFTWARE_SEARCH_PROVIDER}" ]; then
+    # disable the gnome-software shell search provider
+    printf "DefaultDisabled=true\n" >> ${GNOME_SOFTWARE_SEARCH_PROVIDER}
+fi
+
 log_end_msg

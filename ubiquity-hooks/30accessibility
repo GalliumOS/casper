@@ -18,7 +18,7 @@ setup_profile()
 	   [ -x /usr/bin/dconf ] &&
 	   [ -x /target/usr/bin/dconf ]; then
 		mkdir -p /target/tmp/user-a11y-profile-settings.d
-		/usr/bin/a11y-profile-manager -s $PROFILE_NAME -D /target/tmp/user-a11y-profile-settings.d/01-profile
+		/usr/bin/a11y-profile-manager -s $PROFILE_NAME -i -D /target/tmp/user-a11y-profile-settings.d/01-profile
 		if [ -n "$COPY_ORCA_CONFIG" ] &&
 		   [ -x /target/usr/bin/orca ]; then
 			su -c "/usr/bin/dconf dump /org/gnome/orca/ | \

@@ -17,7 +17,7 @@ setup_profile()
 	   [ -x /root/usr/bin/a11y-profile-manager ] &&
 	   [ -x /root/usr/bin/dconf ]; then
 		mkdir -p /root/tmp/a11y-profile-casper.d
-		chroot /root /usr/bin/a11y-profile-manager -s $1 -D /tmp/a11y-profile-casper.d/01-profile
+		chroot /root /usr/bin/a11y-profile-manager -s $1 -i -D /tmp/a11y-profile-casper.d/01-profile
 		chroot /root /usr/bin/dconf compile /tmp/dconf.$USERNAME /tmp/a11y-profile-casper.d
 		mkdir -p /root/home/$USERNAME/.config/dconf
 		mv /root/tmp/dconf.$USERNAME /root/home/$USERNAME/.config/dconf/user
@@ -80,7 +80,7 @@ if [ -z "$NO_A11Y_DESKTOP_FILE" ] &&
 [Desktop Entry]
 Type=Application
 Name=Screen Reader Accessibility Profile
-Exec=/usr/bin/a11y-profile-manager -s $PROFILE_NAME
+Exec=/usr/bin/a11y-profile-manager -s $PROFILE_NAME -i
 NoDisplay=true
 AutostartCondition=GSettings org.gnome.desktop.a11y.applications screen-reader-enabled
 X-GNOME-AutoRestart=false
