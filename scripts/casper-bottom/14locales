@@ -46,8 +46,7 @@ done
 
 if [ -z "${locale}" ]; then
     # Set a default one
-    locale=en_US.UTF-8
-    set_locale="true"
+    echo LANG=C.UTF-8 > /root/etc/default/locale
 fi
 
 if [ "${set_locale}" ]; then

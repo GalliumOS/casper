@@ -71,11 +71,11 @@ do_stop ()
     fi
 
     prompt=1
-    if grep -qs noprompt /proc/cmdline; then
+    if grep -qs noprompt /proc/cmdline || [ -e /run/casper-no-prompt ]; then
         prompt=
     fi
 
-    for path in $(which halt) $(which reboot) /etc/rc?.d /etc/default $(which stty) /bin/plymouth /lib/plymouth /lib/*/plymouth /lib/systemd /etc/systemd /lib/*/libnss_files* /etc/nsswitch.conf /usr/share/fonts/truetype/dejavu/DejaVuSans.ttf /etc/fonts/fonts.conf /etc/fonts/conf.d/60-latin.conf; do
+    for path in $(which halt) $(which reboot) /etc/rc?.d /etc/default $(which stty) /bin/plymouth /lib/plymouth /lib/*/plymouth /lib/systemd /etc/systemd /lib/*/libnss_files* /etc/nsswitch.conf /usr/share/fonts/truetype/dejavu/DejaVuSans.ttf /usr/share/fonts/truetype/ubuntu/Ubuntu-R.ttf /usr/share/fonts/truetype/ubuntu/UbuntuMono-R.ttf /etc/fonts/fonts.conf /etc/fonts/conf.d/60-latin.conf; do
         cache_path "$path"
     done
 
@@ -101,10 +101,13 @@ do_stop ()
 
     # XXX - i18n
     MSG="Please remove the installation medium, then press ENTER: "
+    MSG_FALLBACK="Please remove the installation medium, then reboot."
 
     if [ "$prompt" ]; then
         if [ -x /bin/plymouth ] && plymouth --ping; then
             plymouth message --text="$MSG"
+            clear > /dev/tty1
+            echo $MSG_FALLBACK > /dev/tty1
         else
             stty sane < /dev/console
             echo $MSG > /dev/console

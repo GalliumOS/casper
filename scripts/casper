@@ -143,7 +143,7 @@ mount_images_in_directory() {
 
 is_nice_device() {
     sysfs_path="${1#/sys}"
-    if /sbin/udevadm info --query=all --path="${sysfs_path}" | egrep -q "DEVTYPE=disk"; then
+    if udevadm info --query=all --path="${sysfs_path}" | egrep -q "DEVTYPE=disk"; then
         return 0
     fi
     if echo ${sysfs_path} | grep -q "^/block/dm-"; then
@@ -519,26 +519,13 @@ setup_unionfs() {
             mount -t ${UNIONFS} -o noatime,dirs=/cow/upper=rw:$rofsstring ${UNIONFS} "$rootmnt" || panic "${UNIONFS} mount failed"
             ;;
         overlay|overlayfs)
-            # Mount the layers pairwise from the bottom onto rootmnt,
-            # for the second and later layers rootmnt forms the lower layer.
             mounts=""
-            for mount in /cow $rofslist
+            for mount in $rofslist
             do
-                mounts="$mount $mounts"
+                mounts="$mounts:$mount"
             done
-            lower=""
-            for mount in $mounts
-            do
-                if [ "$lower" = "" ]; then
-                    lower="$mount"
-                    continue
-                fi
-                mount -t ${UNIONFS} -o "upperdir=$mount/upper,lowerdir=$lower,workdir=$mount/work" \
-                    "$mount" "$rootmnt" || \
-                  mount -t ${UNIONFS} -o "upperdir=$mount/upper,lowerdir=$lower" \
-                      "$mount" "$rootmnt"
-                lower="$rootmnt"
-            done
+            mounts="${mounts#:}"
+            mount -t ${UNIONFS} -o "upperdir=/cow/upper,lowerdir=$mounts,workdir=/cow/work" "/cow" "$rootmnt" || panic "${UNIONFS} mount failed"
             ;;
     esac
 
