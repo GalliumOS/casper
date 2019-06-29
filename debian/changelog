@@ -1,4 +1,4 @@
-casper (1.394-galliumos0) bismuth; urgency=medium
+casper (1.394-galliumos1) bismuth; urgency=medium
 
   * Add GalliumOS patches
     - suppress error output from 'ln' in 31disable_update_notifier
